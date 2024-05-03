@@ -2,6 +2,9 @@ import express from "express";
 import { create as createHbsEngine } from "express-handlebars";
 import { CarouselRepo } from "./db/carousel.js";
 import { FeatureRepo } from "./db/feature.js";
+import { CategoryRepo } from "./db/category.js";
+import { readJsonFile } from "./utils/read-json-file.util.js";
+import { join } from "path";
 
 // Tao app Express
 const app = express();

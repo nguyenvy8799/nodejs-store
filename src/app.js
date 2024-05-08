@@ -5,9 +5,12 @@ import { FeatureRepo } from "./db/feature.js";
 import { CategoryRepo } from "./db/category.js";
 import { readJsonFile } from "./utils/read-json-file.util.js";
 import { join } from "path";
+import { connectMongoDB } from "./db/connection.js";
 
 // Tao app Express
 const app = express();
+
+app.use(express.json());
 
 // Cau hinh static files
 app.use(express.static("public"));
@@ -37,11 +40,14 @@ app.set("view engine", extname);
 // Cau hinh folder views
 app.set("views", "views/pages");
 
+connectMongoDB();
+
 // Khai bao cac Routes
 
 // Trang chu
-app.get("/", (req, res) => {
-  const carouselItems = CarouselRepo.getItems();
+app.get("/", async (req, res) => {
+  const carouselItems = await CarouselRepo.getItems();
+  console.log("Carousel Items: ", carouselItems);
   const features = FeatureRepo.getFeatures();
   const categories = [
     {
@@ -91,6 +97,17 @@ app.get("/", (req, res) => {
     features,
     categories,
   });
+});
+
+app.post("/api/carousel/create", async (req, res) => {
+  const data = req.body;
+
+  const carouselItem = await CarouselRepo.createItem(
+    data.id,
+    data.title,
+    data.url
+  );
+  res.json(carouselItem);
 });
 
 // Chay app Express

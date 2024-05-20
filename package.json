@@ -2,7 +2,7 @@
   "name": "nodejs-store",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "npm init\r npm install express\r npm install --save-dev nodemon",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/app.js"
